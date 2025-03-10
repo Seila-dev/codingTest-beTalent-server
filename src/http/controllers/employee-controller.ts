@@ -30,6 +30,9 @@ export class EmployeesController {
                     phone,
                     ra,
                     roleId: parseInt(roleId),
+                },
+                include: {
+                    roles: true
                 }
             })
 
@@ -42,7 +45,11 @@ export class EmployeesController {
 
     async findAll(_: Request, res: Response) {
         try {
-            const employees = await prisma.employee.findMany()
+            const employees = await prisma.employee.findMany({
+                include: {
+                    roles: true
+                }
+            })
             res.status(200).json({ employees })
         } catch (error) {
             res.status(500).send({ message: "Error on finding all employees" })
