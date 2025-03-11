@@ -1,0 +1,392 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "BeTalent Server API",
+    "description": "Essa API gerencia os funcionários e os cargos da empresa BeTalent (teste técnico)",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/roles": {
+      "get": {
+        "summary": "Obter todos os cargos",
+        "operationId": "getRoles",
+        "responses": {
+          "200": {
+            "description": "Lista de cargos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "roles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "ID do cargo"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Nome do cargo"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao buscar cargos"
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar um novo cargo",
+        "operationId": "createRole",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome do cargo"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cargo criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Cargo já existe"
+          },
+          "500": {
+            "description": "Erro ao criar cargo"
+          }
+        }
+      }
+    },
+    "/roles/{id}": {
+      "delete": {
+        "summary": "Excluir um cargo",
+        "operationId": "deleteRole",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cargo excluído com sucesso"
+          },
+          "500": {
+            "description": "Erro ao excluir cargo"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um cargo",
+        "operationId": "updateRole",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Nome do cargo"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cargo atualizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao atualizar cargo"
+          }
+        }
+      }
+    },
+    "/employees": {
+      "get": {
+        "summary": "Obter todos os funcionários",
+        "operationId": "getEmployees",
+        "responses": {
+          "200": {
+            "description": "Lista de funcionários",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "employees": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "description": "ID do funcionário"
+                          },
+                          "name": {
+                            "type": "string",
+                            "description": "Nome do funcionário"
+                          },
+                          "phone": {
+                            "type": "string",
+                            "description": "Telefone do funcionário"
+                          },
+                          "ra": {
+                            "type": "string",
+                            "description": "RA do funcionário"
+                          },
+                          "admissionDate": {
+                            "type": "string",
+                            "format": "date",
+                            "description": "Data de admissão"
+                          },
+                          "avatar": {
+                            "type": "string",
+                            "description": "Caminho para o avatar do funcionário"
+                          },
+                          "role": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "name": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao buscar funcionários"
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar um novo funcionário",
+        "operationId": "createEmployee",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "admissionDate": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "ra": {
+                    "type": "string"
+                  },
+                  "roleId": {
+                    "type": "integer"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": [
+                  "name",
+                  "admissionDate",
+                  "phone",
+                  "ra",
+                  "roleId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Funcionário criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Funcionário já existe"
+          },
+          "500": {
+            "description": "Erro ao criar funcionário"
+          }
+        }
+      }
+    },
+    "/employees/{id}": {
+      "delete": {
+        "summary": "Excluir um funcionário",
+        "operationId": "deleteEmployee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Funcionário excluído com sucesso"
+          },
+          "500": {
+            "description": "Erro ao excluir funcionário"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um funcionário",
+        "operationId": "updateEmployee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "admissionDate": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "phone": {
+                    "type": "string"
+                  },
+                  "ra": {
+                    "type": "string"
+                  },
+                  "roleId": {
+                    "type": "integer"
+                  },
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Funcionário atualizado com sucesso"
+          },
+          "500": {
+            "description": "Erro ao atualizar funcionário"
+          }
+        }
+      }
+    }
+  }
+}
